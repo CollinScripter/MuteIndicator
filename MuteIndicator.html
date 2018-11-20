@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Muted</title>
+		<style>
+			body {
+				overflow:hidden;
+			}
+			
+			img {
+				display: none;
+			}
+			
+			canvas {
+				position: absolute;
+				left:0px;
+				top:0px;
+				opacity: 0.6;
+			}
+		</style>
+	</head>
+
+	<body onLoad="init();">
+		<canvas id="myCanvas"></canvas>
+		
+		<img id="mute" src="https://discordapp.com/assets/896770bf2d6ed0358ed0adefdbe96a24.svg">
+		
+		<script>			
+			var context;
+			var speed = 10;
+			var scale = 1.5;
+			var dx = .11 * speed;
+			var dy = .21 * speed;
+			var y = 0;
+			var x = 0;
+			
+			function init() {
+				context = myCanvas.getContext('2d');
+				context.canvas.width  = window.innerWidth;
+				context.canvas.height = window.innerHeight;
+				context.scale(scale, scale);
+				setInterval(draw, 16);
+			}
+			
+			function draw() {
+				var img = document.getElementById("mute");
+				
+				context = myCanvas.getContext('2d');
+				context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+				context.beginPath();
+				context.fillStyle="#000";
+				context.arc(x + (img.width / 2), y + (img.height / 2), 20, 0, Math.PI*2, true);
+				context.closePath();
+				context.fill();
+				context.drawImage(img, x, y);
+				if( x < 0 || x > (window.innerWidth / scale) - ((img.width * scale) / 2))
+					dx =- dx;
+				if( y < 0 || y > (window.innerHeight / scale) + ((img.height * scale) / 2))
+					dy =- dy;
+					x += dx;
+					y += dy;
+			}
+			
+		</script>
+	</body>
+</html>
